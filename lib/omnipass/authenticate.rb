@@ -23,28 +23,20 @@ module Omnipass
     def save
       link_or_create_account
       authentication.transaction do
-        saved = authentication.save
-        # user.create_account
-        # binding.pry
-        saved
+        authentication.save
       end
     end
 
     def authentication
-      @authentication ||= Users::Authentication.
+      @authentication ||= Omnipass::Authentication.
         where(attributes.slice(:provider, :uid)).first_or_create
     end
 
-    # DEPRECATED
-    # def user
-    #   @user ||= User.where(email: email).first_or_initialize
-    # end
-
     def account
-      @account ||= Account.where(email: email).first_or_initialize
+      @account ||= Omnipass::Account.where(email: email).first_or_initialize
     end
 
-  private
+  # private
     def link_or_create_account
       authentication.account || (authentication.account = account)
     end

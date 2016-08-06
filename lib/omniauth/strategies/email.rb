@@ -3,7 +3,7 @@ module OmniAuth
     # The identity strategy allows you to provide simple internal
     # user authentication using the same process flow that you
     # use for external OmniAuth providers.
-    class Identity
+    class Email
       include OmniAuth::Strategy
 
       option :fields, [:name, :email]
@@ -29,12 +29,12 @@ module OmniAuth
       end
 
       def model
-        options[:model] || Users::Identity
+        options[:model] || Omnipass::Email
       end
 
     private
       def find_identity_with_session
-        @identity ||= ::Users::Identity.authenticate(
+        @identity ||= ::Omnipass::Email.authenticate(
           # request["session"].slice("email"),
           # request["session"]['password']
           request["session"]
@@ -42,7 +42,9 @@ module OmniAuth
       end
 
       def find_identity_with_token
-        @identity||= ::Users::Identity.find_by_token request["confirmation_token"]
+        @identity||= ::Omnipass::Email.find_by_token(
+          request["confirmation_token"]
+        )
       end
 
     end

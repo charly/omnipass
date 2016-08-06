@@ -4,11 +4,10 @@
 #
 module Omnipass
   class Email < ActiveRecord::Base
-    self.table_name = 'identities'
     has_secure_password
-    paramount
+    # paramount
     # paramount :form_admin, Admin::ScanForm
-
+    self.table_name= "omnipass_emails"
     validates :email, uniqueness: true
 
     def self.find_by_token(token)
@@ -18,11 +17,11 @@ module Omnipass
     end
 
     def self.authenticate(params)
-      login_pass_hash = params.symbolize_keys
+      env_hash = params.symbolize_keys
 
-      instance = locate(login_pass_hash.slice(:email))
-      return false unless instance
-      instance.authenticate(login_pass_hash[:password])
+      email = locate(env_hash.slice(:email))
+      return false unless email
+      email.authenticate(env_hash[:password])
     end
 
     def self.locate(search_hash)
@@ -42,7 +41,10 @@ module Omnipass
     def confirm
       generate_confirmation_token
       self.confirmed_at= Time.now.utc
-      save
+    end
+
+    def confirm!
+      confirm and save
     end
 
     def confirmed?
