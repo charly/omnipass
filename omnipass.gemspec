@@ -29,6 +29,8 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency "activesupport", "~> 4"
   spec.add_dependency "virtus", "~> 1"
+  spec.add_dependency "bcrypt"
+  spec.add_dependency "omniauth"
 
   spec.add_development_dependency "bundler", "~> 1.11"
   spec.add_development_dependency "rake", "~> 10.0"
@@ -36,4 +38,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "minitest", "~> 4.7"
   spec.add_development_dependency "activerecord", "~> 4"
   spec.add_development_dependency "sqlite3"
+  spec.add_development_dependency "pry"
+  spec.add_development_dependency "pry-byebug"
+  spec.add_development_dependency "pry-stack_explorer"
 end
